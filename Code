@@ -1,0 +1,219 @@
+import pygame
+import random
+pygame.init()
+
+screen = pygame.display.set_mode((800,600))
+pygame.display.set_caption("breakout")
+
+
+clock = pygame.time.Clock()
+
+#ball variables
+bx = 350
+by = 300
+bVx = 5
+bVy = 5
+
+p1x = 350
+p1y = 570
+p1Score = 0
+doExit = False
+
+
+class brick:
+    def __init__(self, xpos, ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.color = (random.randrange(100, 250), random.randrange(100, 250),random.randrange(100, 250))
+        self.isDead = False
+    def draw(self):
+        if not self.isDead:
+            pygame.draw.rect(screen, self.color, (self.xpos, self.ypos, 100, 50))
+        
+    def collide(self, ball_x, ball_y):
+        if not self.isDead:
+            if (bx + 25 > self.xpos and
+                bx < self.xpos + 100 and
+                by + 25 > self.ypos and
+                by < self.ypos + 50):
+                self.isDead = True
+                return True
+        return False
+
+b1 = brick(50, 50) 
+b2 = brick(50, 100)
+b3 = brick(50, 150)
+b4 = brick(150, 50)
+b5 = brick(150, 100)
+b6 = brick(150, 150)
+b7 = brick(250, 50)
+b8 = brick(250, 100)
+b9 = brick(250, 150)
+b10 = brick(350, 50)
+b11 = brick(350, 100)
+b12 = brick(350, 150)
+b13 = brick(450, 50)
+b14 = brick(450, 100)
+b15 = brick(450, 150)
+b16 = brick(550, 50)
+b17 = brick(550, 100)
+b18 = brick(550, 150)
+b19 = brick(650, 50)
+b20 = brick(650, 100)
+b21 = brick(650, 150)
+
+while not doExit: #GAME LOOP-------------------------------------
+
+    clock.tick(60)
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            doExit = True
+                
+    #game logic
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_RIGHT]:
+        p1x+=5
+    if keys[pygame.K_LEFT]:
+        p1x-=5
+    
+    #ball movement
+    bx += bVx
+    by += bVy
+    
+    if b1.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+    
+    if b2.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+    
+    
+    if b3.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+    
+    if b4.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b5.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b6.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b7.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b8.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b9.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b10.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b11.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b12.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b13.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+    
+    if b14.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b15.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b16.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b17.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b18.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+    
+    if b19.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b20.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+        
+    if b21.collide(bx, by):
+        bVy *= -1
+        p1Score +=1
+    
+    #ball-paddle reflection
+    if bx + 25 < p1x + 50 and by + 25 > p1y and by + 100 < p1y + 100:
+        bVx *= -1
+
+        
+    if by < 0 or by + 20 > 580:
+        bVy *= -1
+    
+    
+    if bx < 0: #hit left side 
+        bVx *= -1
+        
+        
+    if bx > 800: #hit right side
+        bVx *= -1
+
+    
+    #render section----------------------------
+    screen.fill((0,0,0))
+    b1.draw()
+    b2.draw()
+    b3.draw()
+    b4.draw()
+    b5.draw()
+    b6.draw()
+    b7.draw()
+    b8.draw()
+    b9.draw()
+    b10.draw()
+    b11.draw()
+    b12.draw()
+    b13.draw()
+    b14.draw()
+    b15.draw()
+    b16.draw()
+    b17.draw()
+    b18.draw()
+    b19.draw()
+    b20.draw()
+    b21.draw()
+    
+    font = pygame.font.Font(None, 74) #use default font
+    text = font.render(str(p1Score), 1, (255, 255, 255))
+    screen.blit(text, (20,10))
+    
+    pygame.draw.rect(screen, (255, 255, 255), (p1x, p1y, 100, 20), 1)
+    pygame.draw.circle(screen, (255, 255, 255), (bx, by), 25)
+    pygame.display.flip()
+#END GAME LOOP---------------------------------------------------
+
+pygame.quit()
